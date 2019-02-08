@@ -48,11 +48,18 @@ export const addfriend = (friend, friendsEmails) => {
           });
         });
     };
+  } else if (friend.name === '' && friend.age === '') {
+    return dispatch => {
+      dispatch({
+        type: ERROR,
+        payload: 'One of the Fields is incorrect.',
+      });
+    };
   } else {
     return dispatch => {
       dispatch({
         type: ERROR,
-        payload: 'The email provided is already taken, please try another',
+        payload: 'The provided email is already taken, please try another.',
       });
     };
   }
