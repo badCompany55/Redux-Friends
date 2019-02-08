@@ -114,6 +114,7 @@ export const friendsReducer = (state = intialState, action) => {
         deletingFriend: false,
         deletedFriend: false,
         friends: action.payload,
+        error: null,
       };
     }
     case RESET: {
