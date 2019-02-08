@@ -11,7 +11,9 @@ const Friend = props => {
 
   return (
     <div className="friendCont">
-      <h1 className="name">{props.name}</h1>
+      <h1 className="name">
+        <a id={props.name}>{props.name}</a>
+      </h1>
       <div className="age">{props.age}</div>
       <div className="email">{props.email}</div>
       <Link to={`/friends/edit/${props.id}`}>
