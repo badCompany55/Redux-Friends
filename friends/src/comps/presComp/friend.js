@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {deletedFriend} from '../../actions/actions.js';
+import {Link} from 'react-router-dom';
 
 const Friend = props => {
   const deleteHandler = e => {
@@ -10,10 +11,17 @@ const Friend = props => {
 
   return (
     <div className="friendCont">
-      <h1 className="name">{props.name}</h1>
+      <h1 className="name">
+        <a id={props.name}>{props.name}</a>
+      </h1>
       <div className="age">{props.age}</div>
       <div className="email">{props.email}</div>
-      <button id={props.id} onClick={deleteHandler}>
+      <Link to={`/friends/edit/${props.id}`}>
+        <button className="edit" id={props.id}>
+          Edit
+        </button>
+      </Link>
+      <button className="delete" id={props.id} onClick={deleteHandler}>
         Delete
       </button>
     </div>

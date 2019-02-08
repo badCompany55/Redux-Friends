@@ -8,6 +8,7 @@ import {
   DELETINGFRIEND,
   DELETEDFRIEND,
   RESET,
+  EDITFRIEND,
 } from './types.js';
 
 export const fetchingFriends = () => {
@@ -48,11 +49,18 @@ export const addfriend = (friend, friendsEmails) => {
           });
         });
     };
+  } else if (friend.name === '' && friend.age === '') {
+    return dispatch => {
+      dispatch({
+        type: ERROR,
+        payload: 'One of the Fields is incorrect.',
+      });
+    };
   } else {
     return dispatch => {
       dispatch({
         type: ERROR,
-        payload: 'The email provided is already taken, please try another',
+        payload: 'The provided email is already taken, please try another.',
       });
     };
   }
@@ -74,6 +82,29 @@ export const deletedFriend = id => {
         });
       });
   };
+};
+
+export const editFriend = (id, editObj) => {
+  if (editObj.name !== '' && editObj.age !== '' && editObj.email !== '') {
+    return dispatch => {
+      axios
+        .put(`http://www.localhost:5000/api/friends/${id}`, editObj)
+        .then(res => {
+          console.log(editObj);
+          dispatch({type: EDITFRIEND, payload: res.data});
+        })
+        .catch(error => {
+          dispatch({
+            type: ERROR,
+            payload: 'There was a problem editing the friend',
+          });
+        });
+    };
+  } else {
+    return dispatch => {
+      dispatch({type: ERROR, payload: 'All fields must be filled out'});
+    };
+  }
 };
 
 export const resetMsg = () => {
