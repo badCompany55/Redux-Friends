@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {addfriend, resetMsg} from '../actions/actions.js';
+import {addfriend, resetMsg, editFriend} from '../actions/actions.js';
 import {Link} from 'react-router-dom';
 
 class Form extends React.Component {
@@ -25,10 +25,24 @@ class Form extends React.Component {
     this.setState({name: '', age: '', email: ''});
   };
 
+  editFriend = e => {
+    e.preventDefault();
+    let friendId = Number(this.props.match.params.id);
+    let friendObj = {...this.state};
+    this.props.editFriend(friendId, friendObj);
+    this.setState({name: '', age: '', email: ''});
+  };
+
   render() {
     return (
       <div className="formCont">
-        <form className="form" onSubmit={this.submitNewFriend}>
+        <form
+          className="form"
+          onSubmit={
+            this.props.location.pathname.includes('addfriend')
+              ? this.submitNewFriend
+              : this.editFriend
+          }>
           <div className="cont">
             {this.props.addedFriend && (
               <div className="mess">Friend Successfully added</div>
@@ -36,11 +50,19 @@ class Form extends React.Component {
             {this.props.erroMsg && (
               <div className="errorMsg">{this.props.erroMsg}</div>
             )}
+            {this.props.updatingFriends && (
+              <div className="mess">Friend updated Successfully</div>
+            )}
             <Link to="/friends">
               <i class="far fa-window-close" onClick={this.props.resetMsg} />
             </Link>
           </div>
-          <h2 className="formHead">Add Friend</h2>
+          {this.props.location.pathname.includes('addfriend') ? (
+            <h2 className="formHead">Add Friend</h2>
+          ) : (
+            <h2 className="formHead">Edit Friend</h2>
+          )}
+
           <div className="nameCont">
             <label htmlFor="name">Name: </label>
             <input
@@ -87,10 +109,11 @@ const mstp = state => {
     }),
     addedFriend: state.addedFriends,
     erroMsg: state.error,
+    updatingFriends: state.updatingFriends,
   };
 };
 
 export default connect(
   mstp,
-  {addfriend, resetMsg},
+  {addfriend, resetMsg, editFriend},
 )(Form);

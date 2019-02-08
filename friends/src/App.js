@@ -15,6 +15,10 @@ class App extends Component {
         <div className="bodyCont">
           <Route path="/friends" component={FriendsList} />
           <Route path="/friends/addfriend" component={Form} />
+          <Route
+            path="/friends/edit/:id"
+            render={props => <Form {...props} />}
+          />
         </div>
       </div>
     );

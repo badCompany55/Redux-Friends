@@ -7,6 +7,7 @@ import {
   DELETINGFRIEND,
   DELETEDFRIEND,
   RESET,
+  EDITFRIEND,
 } from '../actions/types.js';
 
 const intialState = {
@@ -99,6 +100,19 @@ export const friendsReducer = (state = intialState, action) => {
         updatingFriends: false,
         deletingFriend: false,
         deletedFriend: true,
+        friends: action.payload,
+      };
+    }
+    case EDITFRIEND: {
+      return {
+        ...state,
+        fetchingFriends: false,
+        fetchedFriends: false,
+        addingFriends: false,
+        addedFriends: false,
+        updatingFriends: true,
+        deletingFriend: false,
+        deletedFriend: false,
         friends: action.payload,
       };
     }
